@@ -13,7 +13,7 @@
 | domain     | description                                                                         |
 | ---------- | ----------------------------------------------------------------------------------- |
 | w3c        | related to w3c standard specifications, such as the CSS and HTML standards          |
-| component  | related to a component behavior                                                     |
+| custom     | related to HTML component customization behavior, usually in the form of props      |
 | regression | testing against regressions&mdash;the name should be the issue identifier on Github |
 
 ### Identifiers
@@ -21,5 +21,5 @@
 | domain     | identifier                 |
 | ---------- | -------------------------- |
 | w3c        | _standard_._rule_          |
-| component  | _name_                     |
+| custom     |                            |
 | regression | _issue-number_._qualifier_ |

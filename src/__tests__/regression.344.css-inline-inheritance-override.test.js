@@ -21,7 +21,7 @@ describe.skip("HTML component should pass regression #344", () => {
     const { getByTestId } = render(
       <HTML
         tagsStyles={tagsStyles}
-        source={{ html: '<p><img src="https://img.com/1"/>foo<a>bar</a></p>' }}
+        html='<p><img src="https://img.com/1"/>foo<a>bar</a></p>'
       />
     );
     const text = getByTestId("a-renderer");

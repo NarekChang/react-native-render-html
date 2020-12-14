@@ -24,7 +24,7 @@ describe("HTML component", () => {
       };
       const { UNSAFE_getByType } = render(
         <HTML
-          source={{ html: "<p>foo<span>hello world</span></p>" }}
+          html={"<p>foo<span>hello world</span></p>"}
           renderers={customRenderers}
         />
       );

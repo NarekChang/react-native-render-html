@@ -20,15 +20,13 @@ import { elementHasAncestorOfType } from "./utils";
  **/
 describe("HTML component should honor formatting context of the DOM tree", () => {
   it("should wrap text elements into a box formed by a View component", () => {
-    const { getByText } = render(
-      <HTML source={{ html: `<span>hello world</span>` }} />
-    );
+    const { getByText } = render(<HTML html={`<span>hello world</span>`} />);
     const text = getByText("hello world");
     expect(text.parent.type).toBe("View");
   });
   it("should wrap sibling text elements into a box formed by a Text component", () => {
     const { getByText } = render(
-      <HTML source={{ html: `<span>hello world</span><span>foo bar</span>` }} />
+      <HTML html={`<span>hello world</span><span>foo bar</span>`} />
     );
     const span1 = getByText("hello world");
     expect(span1.parent.type).toBe("Text");
@@ -47,9 +45,7 @@ describe("HTML component should honor formatting context of the DOM tree", () =>
   it("should cut embedded images inside inline formatting contexts into boxes", () => {
     const { getByText, UNSAFE_getByType } = render(
       <HTML
-        source={{
-          html: `<span><b>hello world</b><img src="https://img.com/1"/>foo bar</span>`,
-        }}
+        html={`<span><b>hello world</b><img src="https://img.com/1"/>foo bar</span>`}
       />
     );
     const b = getByText("hello world");
@@ -86,11 +82,9 @@ describe("HTML component should honor formatting context of the DOM tree", () =>
         wrapper: "Text",
       },
     };
-    const { UNSAFE_getByType } = render(
+    const { UNSAFE_getByType, toJSON } = render(
       <HTML
-        source={{
-          html: `foo<custom><b>hello world</b><img src="https://img.com/1" /></custom>`,
-        }}
+        html={`foo<custom><b>hello world</b><img src="https://img.com/1" /></custom>`}
         renderers={customRenderers}
       />
     );

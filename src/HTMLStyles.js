@@ -12,7 +12,7 @@ import {
 /**
  * Converts a html style string to an object
  * @param str: the style string
- * @return the style as an object
+ * @return the style as an obect
  */
 export function cssStringToObject(str) {
   return str
@@ -36,13 +36,13 @@ export function cssObjectToString(obj) {
 
 /**
  * Helper that composes styles with the default style for a tag, the "style" attribute and
- * any given additional style. Checks everything against the style sets of views, images,
+ * any given addiitional style. Checks everything against the style sets of views, images,
  * or texts with prop-types.
  * @export
  * @param {any} { tagName, htmlAttribs, passProps, additionalStyles, styleSet = 'VIEW' }
  * @returns {object}
  */
-export function constructStyles({
+export function _constructStyles({
   tagName,
   htmlAttribs,
   passProps,
@@ -60,7 +60,7 @@ export function constructStyles({
   let style = [
     (styleSet === "VIEW" ? defaultBlockStyles : defaultTextStyles)[tagName],
     passProps.tagsStyles ? passProps.tagsStyles[tagName] : undefined,
-    getElementClassStyles(htmlAttribs, passProps.classesStyles),
+    _getElementClassStyles(htmlAttribs, passProps.classesStyles),
     htmlAttribs.style
       ? cssStringToRNStyle(htmlAttribs.style, STYLESETS[styleSet], {
           ...passProps,
@@ -75,7 +75,7 @@ export function constructStyles({
     );
   }
 
-  return style.filter((s) => s !== undefined);
+  return style.filter((style) => style !== undefined);
 }
 
 /**
@@ -119,7 +119,7 @@ function _recursivelyComputeParentTextStyles(element, passProps, styles = []) {
     attribs && attribs.style
       ? cssStringToRNStyle(attribs.style, STYLESETS.TEXT, passProps)
       : {};
-  const classStyles = getElementClassStyles(attribs, classesStyles);
+  const classStyles = _getElementClassStyles(attribs, classesStyles);
   const userTagStyles = tagsStyles[name];
   const defaultTagStyles = defaultTextStyles[name];
 
@@ -146,14 +146,14 @@ function _recursivelyComputeParentTextStyles(element, passProps, styles = []) {
 }
 
 /**
- * Creates a set of style from an array of classes associated to a node.
+ * Creates a set of style from an array of classes asosciated to a node.
  * @export
  * @param {any} htmlAttribs
  * @param {any} [classesStyles={}]
  * @returns {object}
  */
-export function getElementClassStyles(htmlAttribs, classesStyles = {}) {
-  const elementClasses = getElementCSSClasses(htmlAttribs);
+export function _getElementClassStyles(htmlAttribs, classesStyles = {}) {
+  const elementClasses = _getElementCSSClasses(htmlAttribs);
   let styles = {};
   elementClasses.forEach((className) => {
     if (classesStyles[className]) {
@@ -169,7 +169,7 @@ export function getElementClassStyles(htmlAttribs, classesStyles = {}) {
  * @param {any} htmlAttribs
  * @returns {array}
  */
-export function getElementCSSClasses(htmlAttribs) {
+export function _getElementCSSClasses(htmlAttribs) {
   if (!htmlAttribs || !htmlAttribs.class) {
     return [];
   }
@@ -177,7 +177,7 @@ export function getElementCSSClasses(htmlAttribs) {
 }
 
 /**
- * Converts a html style to its equivalent react native style
+ * Converts a html style to its equavalent react native style
  * @param {object} css: object of key value css strings
  * @param {string} styleset: the styleset to convert the styles against
  * @param {object} { parentTag, emSize, ignoredStyles }
@@ -291,8 +291,3 @@ function mapAbsoluteFontSize(key, value) {
 export function cssStringToRNStyle(str, styleset = STYLESETS.TEXT, options) {
   return cssToRNStyle(cssStringToObject(str), styleset, options);
 }
-
-// Retrocompatibility with v4
-exports._getElementClassStyles = getElementClassStyles;
-exports._getElementCSSClasses = getElementCSSClasses;
-exports._constructStyles = constructStyles;
